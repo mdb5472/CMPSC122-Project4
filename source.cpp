@@ -18,7 +18,12 @@ struct plane {
 } *Arrival, *departure;
 
 
-int TIME;
+int TIME; // The real time
+
+list<plane> arriving;
+list<plane> departing;
+list<plane> crashed; // we may consider having this
+
 int takeOffWaitTime;
 int landingWaitTime;
 int numCrash;
@@ -30,6 +35,14 @@ int numGrandKilled;
 int waitTimeGrand;
 int numCargoSafe;
 int cargoDestroyed;
+
+// declare methods
+void next();
+void adjustFuel();
+void processPlanes();
+void sortPlanes();
+void printStats();
+void updateStats();
 
 
 
@@ -48,7 +61,54 @@ int cargoDestroyed;
  */
 void next()
 {
+    processPlanes(); //calling this method before adjusting fuel will save more planes(I think)
+    adjustFuel();
     
+    TIME++;
+}
+
+/*
+ *  Function that decrements the fuel in each plane, and refuels 
+ *  departing planes when necessary.
+ */
+void adjustFuel()
+{
+    for(plane p_d: departing) {
+        p_d.fuel--;
+        if(p_d.fuel < 20) {
+            p_d.fuel += 10;
+            p_d.actual_time += 10;
+        }
+    }
+    
+    for(plane p_a: arriving) {
+        p_a.fuel--;
+    }
+}
+
+/*
+ *  Processes two planes, and crashed planes.
+ *  Updates crashed stats
+ */
+void processPlanes()
+{
+    // process two planes
+    // ...
+    
+    
+    //process crashed planes
+    for(plane p_a: arriving) {
+        if(p_a.fuel == -1) {
+            numCrash++;
+            numPeopleKilled += p_a.passengers;
+            if(p_a.Fam) {
+                numGrandKilled++;
+            }
+            cargoDestroyed += p_a.cargo;
+            
+            
+        }
+    }
 }
 
 /*
@@ -61,14 +121,49 @@ void sortPlanes()
     
 }
 
+/*
+    •Average Take off wait time
+    •Average landing wait time 
+    •Number of plan crash 
+    •Number of plans departing
+    •Number of planes arriving
+    •Number of people that landed safely 
+    •Number of people killed
+    •Number of Grandchildren killed 
+    •Average wait time for a grandchild  Arriving or departing.  (Dead grandchildren not included)
+    •Amount of cargo that landed safely
+    •Amount of destroyed Cargo 
+    •Amount of time it takes to process a input file
+ */
+void printStats()
+{
+    cout << "Average Take off wait time: " << endl;
+    cout << "Average landing wait time: " << endl;
+    cout << "Number of plan crash: " << endl;
+    cout << "Number of plans departing: " << endl;
+    cout << "Number of planes arriving: " << endl;
+    cout << "Number of people that landed safely: " << endl;
+    cout << "Number of people killed: " << endl;
+    cout << "Number of Grandchildren killed: " << endl;
+    cout << "Average wait time for a grandchild  Arriving or departing.  (Dead grandchildren not included): " << endl;
+    cout << "Amount of cargo that landed safely: " << endl;
+    cout << "Amount of destroyed Cargo: " << endl;
+    cout << "Amount of time it takes to process a input file: " << endl;
+}
 
 
 /*
- *
+ *  Updates non-crashed stats
  */
 void updateStats()
 {
+    for(plane p_a: arriving) {
+        
+    }
     
+    for(plane p_d: departing) {
+        
+    }
 }
 
 
@@ -76,8 +171,7 @@ int main() {
     ifstream input;
     string line;
     
-    vector<plane> arriving;
-    vector<plane> departing;
+    
     
     input.open("/Users/erniedefoy/Desktop/planes.txt", ios::in);//you need a path to your file here
     
