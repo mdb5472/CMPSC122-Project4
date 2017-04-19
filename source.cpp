@@ -1,16 +1,8 @@
-/******************************************************
-
-
-//test
- sgadhsdhsdh
-
-
-
-********************************************************/
-
+#include <fstream>
 #include <iostream>
+#include <string> 
+#include <list>
 using namespace std;
-
 
 struct plane {
 	struct plane *before;
@@ -24,18 +16,19 @@ struct plane {
 	bool successful;
 } *Arrival, *departure;
 
-class linkedlist
-{
-public:                             //definitions for the various methods to be used with this class
 
-	linkedlist()
-	{
-		Arrival = NULL;
-		departure = NULL;
-	}
-
-};
 
 int main() {
+		ifstream input;
+		string line;
+		input.open("PATH TO YOUR FILE", ios::in);//you need a path to your file here
+		while (!input.eof())
+		{
+			getline(input, line, ','); //this will read the contents between commas one at a time
+			                           //so underneath you can one at a time place information into their locations in the structure
+		}
+		input.close();
+	
 
 }
+
