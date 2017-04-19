@@ -1,3 +1,12 @@
+/*
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -61,8 +70,10 @@ void updateStats();
  */
 void next()
 {
+    sortPlanes();
     processPlanes(); //calling this method before adjusting fuel will save more planes(I think)
     adjustFuel();
+    updateStats();
     
     TIME++;
 }
@@ -94,6 +105,7 @@ void processPlanes()
 {
     // process two planes
     // ...
+    
     
     
     //process crashed planes
@@ -170,7 +182,7 @@ void updateStats()
 int main() {
     ifstream input;
     string line;
-    
+    string wait; // variable to allow user to press enter to continue reading file
     
     
     input.open("/Users/erniedefoy/Desktop/planes.txt", ios::in);//you need a path to your file here
@@ -206,11 +218,21 @@ int main() {
             
             a_or_d == "A" ? arriving.push_back(p) : departing.push_back(p);
         }
-        else {
-            // Print Statistics or wait
+        else if(line == "P") {
+            // Print Statistics
+            /*while(!arriving.empty() && !departing.empty()) {
+                next();
+            }*/
+            
+            printStats();
         }
-        
+        else if(line == "W") {
+            // Wait... How?
+            
+            cin >> wait;
+        }
     }
+    
     
     
     /*
@@ -221,7 +243,11 @@ int main() {
      
     input.close();
     
-    cout << endl;
+    cout << "hi";
+    
+    /*while(!arriving.empty() && !departing.empty()) {
+        next();
+    }*/
     
 }
 
