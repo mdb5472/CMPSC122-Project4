@@ -1,14 +1,17 @@
 /******************************************************
 
 
-//test
- sgadhsdhsdh
+
 
 
 
 ********************************************************/
 
 #include <iostream>
+#include <fstream>
+#include <list>
+#include <string>
+
 using namespace std;
 
 
@@ -37,5 +40,24 @@ public:                             //definitions for the various methods to be 
 };
 
 int main() {
+	string line;
+	ifstream myfile("myfile.txt");
+	if (myfile.eof())
+	{
+		while (getline(myfile, line))
+		{
+			cout << line << '\n';
+		}
+		myfile.close();
+	}
+
+	else cout << "Unable to open file";
+
+	return 0;
+
+}
+
+void printStats()
+{
 
 }
